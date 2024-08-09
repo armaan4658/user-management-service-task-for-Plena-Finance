@@ -24,8 +24,8 @@ The **User Management Service** is a RESTful API built with NestJS. It provides 
 1. **Clone the Repository:**
 
 
-   git clone https://github.com/your-repo/user-management-service.git
-   cd user-management-service
+   git clone https://github.com/armaan4658/user-management-service-task-for-Plena-Finance.git
+   cd user-management-service-task-for-Plena-Finance
 
 
 2. **Install Dependencies:**
