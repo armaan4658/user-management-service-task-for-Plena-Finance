@@ -58,8 +58,6 @@ export class UserController {
     const parsedMinAge = this.parseAge(minAge, 'minAge');
     const parsedMaxAge = this.parseAge(maxAge, 'maxAge');
 
-    console.log('Parsed Values:', { username, parsedMinAge, parsedMaxAge });
-
     const users = await this.userService.searchUsers(subject, username, parsedMinAge, parsedMaxAge);
     return buildResponse(200, 'Users fetched successfully', users);
   }

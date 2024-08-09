@@ -1,73 +1,103 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# User Management Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+The **User Management Service** is a RESTful API built with NestJS. It provides functionalities for managing users, including user creation, authentication, and blocking/unblocking users. It also includes caching mechanisms to optimize search operations and handles user blocking/unblocking with cache invalidation.
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **User Creation:** Register new users.
+- **User Authentication:** Login users and issue JWT tokens.
+- **User Search:** Search users based on username and age range with caching.
+- **Block/Unblock Users:** Block or unblock users, with cache invalidation.
+- **Error Handling:** Proper error handling and response formatting.
+
+## Technologies
+
+- **NestJS:** Framework for building efficient, reliable, and scalable server-side applications.
+- **PostgreSQL:** Database for storing user and block information.
+- **TypeORM:** ORM for interacting with the PostgreSQL database.
+- **Cache Manager:** Caching mechanism for optimizing search operations.
 
 ## Installation
 
-```bash
-$ npm install
-```
+1. **Clone the Repository:**
 
-## Running the app
 
-```bash
-# development
-$ npm run start
+   git clone https://github.com/your-repo/user-management-service.git
+   cd user-management-service
 
-# watch mode
-$ npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
+2. **Install Dependencies:**
 
-## Test
+    npm install
 
-```bash
-# unit tests
-$ npm run test
+3. **Setup Environment Variables:**
 
-# e2e tests
-$ npm run test:e2e
+    DATABASE_HOST=localhost
+    DATABASE_PORT=5432
+    DATABASE_USERNAME=your_username
+    DATABASE_PASSWORD=your_password
+    DATABASE_NAME=your_database
+    JWT_SECRET=your_jwt_secret
 
-# test coverage
-$ npm run test:cov
-```
+## Usage
 
-## Support
+1. **Run the Application:**
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+    npm run start
 
-## Stay in touch
+2. **Run Tests:**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    npm run test
 
-## License
 
-Nest is [MIT licensed](LICENSE).
+# Endpoints
+
+## User Management
+
+1. **Create User:**
+
+    POST /users/create
+    Request Body: { "username": "string", "pwd": "string", "name": "string", "surname": "string", "birthdate": "YYYY-MM-DD" }
+    Response: { "statusCode": 200, "message": "User created successfully", "data": {...}, "timestamp": "ISO_DATE" }
+
+2. **Login User:**
+
+    POST /users/login
+    Request Body: { "username": "string", "pwd": "string" }
+    Response: { "statusCode": 200, "message": "User fetched successfully", "data": { "username": "string", "access_token": "string" }, "timestamp": "ISO_DATE" }
+
+3. **Search User:**
+
+    GET /users/search?username=string&minAge=number&maxAge=number
+    Response: { "statusCode": 200, "message": "Users fetched successfully", "data": [{...}, {...}], "timestamp": "ISO_DATE" }
+
+4. **Get User by ID:**
+
+    GET /users/:id
+    Response: { "statusCode": 200, "message": "User fetched successfully", "data": {...}, "timestamp": "ISO_DATE" }
+
+5. **Update User:**
+
+    PUT /users
+    Request Body: { "name": "string", "surname": "string", "birthdate": "YYYY-MM-DD" }
+    Response: { "statusCode": 200, "message": "User updated successfully", "data": {...}, "timestamp": "ISO_DATE" }
+
+6. **Delete User:**
+
+      DELETE /users
+      Response: { "statusCode": 200, "message": "User deleted successfully", "data": {...}, "timestamp": "ISO_DATE" }
+
+
+## Block Management
+
+1. **Block User:**
+
+    POST /block/:blockedId
+    Response: { "statusCode": 200, "message": "User blocked successfully", "timestamp": "ISO_DATE" }
+
+2. **UnBlock User:**
+
+    DELETE /block/:blockedId
+    Response: { "statusCode": 200, "message": "User unblocked successfully", "timestamp": "ISO_DATE" }

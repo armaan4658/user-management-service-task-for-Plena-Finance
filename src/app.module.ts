@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { BlockModule } from './block/block.module';
-// import { JwtModule } from '@nestjs/jwt';
 import { JwtAuthMiddleware } from './middlewares/jwt-auth.middleware';
 import { JwtGlobalModule } from './jwt-global.module';
 
