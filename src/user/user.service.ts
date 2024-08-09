@@ -85,6 +85,11 @@ export class UserService {
 
     // Only update values present in the request
     for(const [key,val] of Object.entries(updateUserDto)){
+      if(key == 'pwd'){
+        const salt = await bcrypt.genSalt();
+        updatedValues[key] = await bcrypt.hash(val, salt);
+        continue;
+      }
       if(val) updatedValues[key] = val
     }
 
